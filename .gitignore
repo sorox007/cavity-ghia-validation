@@ -1,0 +1,22 @@
+# OpenFOAM time directories (large binary output)
+[0-9]*.[0-9]*/
+
+# Raw mesh (regenerate with blockMesh)
+constant/polyMesh/
+
+# Log files
+log
+log.*
+
+# ParaView state files
+*.pvsm
+*.foam
+*.OpenFOAM
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db
