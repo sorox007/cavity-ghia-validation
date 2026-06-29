@@ -85,6 +85,20 @@ pip install numpy matplotlib
 └── README.md
 ```
 
+## What I Changed from the Default Tutorial (and Why)
+
+The OpenFOAM cavity tutorial is a 20×20 mesh on a 0.1m domain — it's a toy. Running it as-is produces garbage compared to Ghia. Here's everything I modified and the reasoning:
+
+1. **Domain size** — Changed `convertToMeters` from `0.1` to `1` to match Ghia's 1×1 benchmark geometry. Also adjusted ν from 1×10⁻⁵ to 1×10⁻³ to keep Re = 1000 (= UL/ν) consistent with the new domain size.
+
+2. **Mesh refinement** — 20×20 → 257×257. The tutorial mesh is far too coarse for any meaningful comparison — the primary vortex is barely resolved. 257×257 gives cell size ≈ 3.9mm, sufficient for Re=1000.
+
+3. **Solver switch** — The tutorial ships with turbulence model files (`k`, `omega`, `epsilon`, `nut`, `nuTilda`) and `PIMPLE` in `fvSolution`. At Re=1000, the flow is laminar — turbulence models add unnecessary diffusion. I set `simulationType laminar;` and removed the turbulence field files. Initially tried `icoFoam` (PISO-only) but it crashed because `fvSolution` only had a `PIMPLE` sub-dictionary, not `PISO`.
+
+4. **Time step control** — The tutorial had a fixed `deltaT = 0.005`. On a 257×257 mesh (Δx ≈ 0.00389m), this gives Courant number ≈ 1.28 — above the stability limit. The original run to t=10s produced L₂ errors of 0.13 (terrible). I added `adjustTimeStep yes` with `maxCo 0.5` and extended `endTime` to 100s (~100 flow-through times) to reach steady state. This dropped L₂ error from 0.13 → 0.008.
+
+5. **Post-processing** — Wrote a Python script to parse OpenFOAM field files directly, extract centerline velocity profiles, interpolate onto Ghia's 17 benchmark points, and compute L₂ error. OpenFOAM 13's `sample` utility was superseded by `foamPostProcess`, so I used `writeCellCentres` + custom Python instead.
+
 ## Roadmap
 
 - [ ] Re = 100, 400, 1000, 3200, 5000, 7500, 10000 — automated parameter sweep
