@@ -20,7 +20,7 @@ The animation below shows the vortex formation and steady-state development over
 
 ![Re=1000 cavity flow — velocity magnitude evolving from t=0 to t≈100s](postProcessing/results/cavity_Re1000.gif)
 
-*(50 time steps, 10 fps, 238KB)*
+*(50 time steps, 10 fps, ~1.9 MB source, 463 KB GIF)*
 
 ## Case Setup
 
