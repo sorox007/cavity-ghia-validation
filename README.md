@@ -14,6 +14,14 @@ Validation of OpenFOAM against the classic **lid-driven cavity** benchmark from:
 
 ![u and v velocity profiles compared with Ghia et al. at Re=1000](postProcessing/results/ghia_comparison_Re1000.png)
 
+### Velocity Magnitude Evolution
+
+The animation below shows the vortex formation and steady-state development over time:
+
+![Re=1000 cavity flow — velocity magnitude evolving from t=0 to t≈100s](postProcessing/results/cavity_Re1000.gif)
+
+*(50 time steps, 10 fps, 238KB)*
+
 ## Case Setup
 
 - **Domain**: 1m × 1m square cavity (2D — `empty` BC on front/back)
@@ -81,7 +89,8 @@ pip install numpy matplotlib
 ├── scripts/
 │   └── compare_ghia.py         # Validation comparison script
 ├── postProcessing/results/
-│   └── ghia_comparison_Re1000.png
+│   ├── ghia_comparison_Re1000.png
+│   └── cavity_Re1000.gif
 └── README.md
 ```
 
